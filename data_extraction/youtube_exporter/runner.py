@@ -1,22 +1,24 @@
 import os
 from dotenv import load_dotenv
-from youtube_exporter import YouTubeExporter
+from src.query_settings import QuerySettings
+from src.youtube_service_fabric import YoutubeServiceFabric
 
 load_dotenv()
 
 
 def main():
     api_key = os.getenv('API_KEY')
-    query_setting = {
-        'query': ["Wing drone", "XWing drone"],
-        'part': "id,snippet",
-        'max_results': 30
-    }
+    settings = QuerySettings(query=["Ланцет-1 БПЛА"],
+                             max_count=10,
+                             region_code="RU")
 
-    service = YouTubeExporter(api_key)
-    response = service.search(query_setting)
+    threads = 4
+    json_path = "./output_json.json"
+    download_path = "./data"
+    type = "download"
 
-    print(response)
+    service = YoutubeServiceFabric(api_key, settings, json_path, download_path, threads).build(type)
+    service.execute()
 
 
 if __name__ == '__main__':
