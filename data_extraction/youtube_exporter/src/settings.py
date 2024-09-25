@@ -7,14 +7,18 @@ from .query_settings import QuerySettings
 class JsonSettings:
     def __init__(self, json_setting_path):
         self.json_setting_path = json_setting_path
-        self.settings = None
+        self.data_folder = "./data"
+        self.settings = self._create_template()
         self._read()
         self._convert()
 
     def _read(self):
+        if not os.path.exists(self.data_folder):
+            os.makedirs(self.data_folder)
+
         if not os.path.exists(self.json_setting_path):
             with open(self.json_setting_path, 'w', encoding='utf-8') as stream:
-                json.dump(self._create_template(), stream, indent=2, ensure_ascii=False)
+                json.dump(self.settings, stream, indent=2, ensure_ascii=False)
         else:
             with open(self.json_setting_path, 'r', encoding='utf-8') as stream:
                 self.settings = json.load(stream)
