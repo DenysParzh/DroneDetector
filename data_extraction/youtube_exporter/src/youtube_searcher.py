@@ -23,18 +23,23 @@ class YouTubeSearcher(IComand):
 
     def _search_video_metadata(self, settings: QuerySettings) -> list:
         print(settings.get_query_string())
-
-        response = (self.youtube_service
-                    .search()
-                    .list(q=settings.get_query_string(),
-                          part=settings.part,
-                          maxResults=settings.max_count,
-                          publishedAfter=settings.published_after,
-                          publishedBefore=settings.published_before,
-                          regionCode=settings.region_code)
-                    .execute())
-
-        return response['items']
+        output = []
+        nextPageToken = ""
+        for counter in range(settings.page_count["last"]):
+            response = (self.youtube_service
+                        .search()
+                        .list(q=settings.get_query_string(),
+                              part=settings.part,
+                              maxResults=settings.max_count,
+                              publishedAfter=settings.published_after,
+                              publishedBefore=settings.published_before,
+                              regionCode=settings.region_code,
+                              pageToken=nextPageToken)
+                        .execute())
+            nextPageToken = response["nextPageToken"]
+            if settings.page_count["last"] >= counter:
+                output.extend(response['items'])
+        return output
 
     @staticmethod
     def _response_parser(response: list) -> list:

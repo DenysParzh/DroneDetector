@@ -1,5 +1,5 @@
 class QuerySettings:
-    def __init__(self, query, max_count,
+    def __init__(self, query, max_count, page_count,
                  region_code=None, exclude=None,
                  published_after: dict = None, published_before: dict = None):
 
@@ -11,6 +11,7 @@ class QuerySettings:
 
         self.query = query
         self.max_count = max_count
+        self.page_count = page_count
         self.exclude = exclude
         self.published_after = self._parse_date(published_after) if published_after else None
         self.published_before = self._parse_date(published_before) if published_after else None

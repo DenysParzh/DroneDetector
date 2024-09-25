@@ -28,6 +28,7 @@ class JsonSettings:
         self.query = QuerySettings(query=json_raw_settings["query"],
                                    exclude=json_raw_settings["exclude"],
                                    max_count=json_raw_settings["max_count"],
+                                   page_count=json_raw_settings["page_count"],
                                    region_code=json_raw_settings["region_code"],
                                    published_after=json_raw_settings["published_after"],
                                    published_before=json_raw_settings["published_before"], )
@@ -46,6 +47,7 @@ class JsonSettings:
                 "query": [],
                 "exclude": [],
                 "max_count": 10,
+                "page_count": {"first": 0, "last": 10},
                 "region_code": "UA",
                 "published_after": {"year": 2000, "month": 1, "day": 1},
                 "published_before": {"year": 2030, "month": 1, "day": 1}
