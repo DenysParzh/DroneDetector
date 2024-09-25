@@ -1,6 +1,8 @@
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from pytubefix import YouTube
+
 from .icomand import IComand
 
 
@@ -37,7 +39,6 @@ class YouTubeVideoDownloader(IComand):
 
             for future in as_completed(futures):
                 future.result()
-
 
     @staticmethod
     def _filter(data: list[dict]) -> list[str]:

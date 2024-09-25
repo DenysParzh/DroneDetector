@@ -12,7 +12,7 @@ class QuerySettings:
         self.query = query
         self.max_count = max_count
         self.exclude = exclude
-        self.published_after = self._parse_date(published_before) if published_after else None
+        self.published_after = self._parse_date(published_after) if published_after else None
         self.published_before = self._parse_date(published_before) if published_after else None
         self.region_code = "UA" if not region_code else region_code
         self.part = "id,snippet"
