@@ -40,12 +40,13 @@ class YouTubeSearcher(IComand):
     def _response_parser(response: list) -> list:
         domain = "https://www.youtube.com"
         path_list = []
-
+        counter = 1
         for item in response:
             if item['id']['kind'] == 'youtube#video':
                 video_title = item['snippet']['title']
                 video_url = f"{domain}/watch?v={item['id']['videoId']}"
-                path_list.append({'title': video_title, 'url': video_url, "mark": 0})
+                path_list.append({'id': counter, 'title': video_title, 'url': video_url, "mark": 0})
+                counter += 1
 
         return path_list
 
