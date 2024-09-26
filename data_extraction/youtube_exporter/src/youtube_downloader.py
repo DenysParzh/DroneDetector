@@ -27,9 +27,15 @@ class YouTubeVideoDownloader(IComand):
         def _download_helper(video_path):
             try:
                 yt = YouTube(video_path)
-                (yt.streams.filter(res="1080p", mime_type="video/mp4", only_video=True)
-                 .first()
-                 .download(self.download_path))
+                video = yt.streams.filter(res="1080p", mime_type="video/mp4", only_video=True).first()
+
+                if not video:
+                    video = (yt.streams.filter(mime_type="video/mp4", only_video=True)
+                               .order_by('resolution')
+                               .desc()
+                               .first())
+
+                video.download(self.download_path)
 
             except Exception as e:
                 print(f"Failed to download {video_path}. Reason: {e}")
